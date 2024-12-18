@@ -2,22 +2,61 @@ import { useState } from 'react'
 import Block from './components/block'
 import Input from './components/Input';
 import Button from './components/Button';
+import { Pawn, Rook, Bishop, Knight, Queen, King } from './components/Piece.js';
 import './App.css'
 
 function App() {
-  const initialBoard = [
-    ["r", "n", "b", "q", "k", "b", "n", "r"], // Black's pieces
-    ["p", "p", "p", "p", "p", "p", "p", "p"], // Black's pawns
-    [null, null, null, null, null, null, null, null],
-    [null, null, null, null, null, null, null, null],
-    [null, null, null, null, null, null, null, null],
-    [null, null, null, null, null, null, null, null],
-    ["pw1", "pw2", "pw3", "pw4", "pw5", "ps6", "ps7", "pw8"], // White's pawns
-    ["R", "N", "B", "Q", "K", "B", "N", "R"], // White's pieces
-  ];
+  // const initialBoard = [
+  //   ["rb1", "nb1", "bb1", "qb", "kb", "bb2", "nb2", "rb2"], // Black's pieces
+  //   ["pb1", "pb2", "pb3", "pb4", "pb5", "pb6", "pb7", "pb8"], // Black's pawns
+  //   [null, null, null, null, null, null, null, null],
+  //   [null, null, null, null, null, null, null, null],
+  //   [null, null, null, null, null, null, null, null],
+  //   [null, null, null, null, null, null, null, null],
+  //   ["pw1", "pw2", "pw3", "pw4", "pw5", "ps6", "ps7", "pw8"], // White's pawns
+  //   ["rw1", "nw1", "bw1", "qw", "kw", "bw2", "nw2", "rw2"], // White's pieces
+  // ];
+
+  const createBoard = () => {
+    const board = Array(8)
+      .fill(null)
+      .map(() => Array(8).fill(null));
+
+    // Place white pieces
+    board[7] = [
+      new Rook("white", 1),
+      new Knight("white", 1),
+      new Bishop("white", 1),
+      new Queen("white"),
+      new King("white"),
+      new Bishop("white", 2),
+      new Knight("white", 2),
+      new Rook("white", 2),
+    ];
+    let i = 0;
+    board[6] = Array(8).fill(null).map(() => new Pawn("white", i++));
+
+    // Place black pieces
+    let j = 0;
+    board[1] = Array(8).fill(null).map(() => new Pawn("black", j++));
+    board[0] = [
+      new Rook("black", 1),
+      new Knight("black", 1),
+      new Bishop("black", 1),
+      new Queen("black"),
+      new King("black"),
+      new Bishop("black", 2),
+      new Knight("black", 2),
+      new Rook("black", 2),
+    ];
+
+    return board;
+  };
+
   const [board, setBoard] = useState(
-    initialBoard
+    createBoard
   )
+
   const [command, setCommand] = useState("");
   const [ipcom, setIpcom] = useState("");
 
@@ -41,7 +80,7 @@ function App() {
             {
               board.map((row, rowIdx) => 
                 row.map((col, colIdx) => (
-                  <Block key={`${rowIdx}-${colIdx}`} text={col} bgc={(rowIdx + colIdx) % 2 ? `Gray` : `lightGray`}/>
+                  <Block key={`${rowIdx}-${colIdx}`} text={col ? col.type[0] + col.color[0] + (col.id ? col.id : ``) : ``} bgc={(rowIdx + colIdx) % 2 ? `Gray` : `lightGray`}/>
                 ))
               )
             }

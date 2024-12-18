@@ -27,24 +27,24 @@ function App() {
       new Rook("white", 1),
       new Knight("white", 1),
       new Bishop("white", 1),
-      new Queen("white"),
-      new King("white"),
+      new Queen("white", 0),
+      new King("white", 0),
       new Bishop("white", 2),
       new Knight("white", 2),
       new Rook("white", 2),
     ];
-    let i = 0;
+    let i = 1;
     board[6] = Array(8).fill(null).map(() => new Pawn("white", i++));
 
     // Place black pieces
-    let j = 0;
+    let j = 1;
     board[1] = Array(8).fill(null).map(() => new Pawn("black", j++));
     board[0] = [
       new Rook("black", 1),
       new Knight("black", 1),
       new Bishop("black", 1),
-      new Queen("black"),
-      new King("black"),
+      new Queen("black", 0),
+      new King("black", 0),
       new Bishop("black", 2),
       new Knight("black", 2),
       new Rook("black", 2),
@@ -60,6 +60,26 @@ function App() {
   const [command, setCommand] = useState("");
   const [ipcom, setIpcom] = useState("");
 
+  const checkCommand = (cmd) => {
+    if(cmd.length == 12 && cmd.substring(3, 8) == '.step'){
+      console.log(`Command acceted as ${cmd}`)
+      return true;
+    }
+    else{
+      console.log(`Enter Some valid Command`);
+      return false;
+    }
+  }
+
+  const movePiece = () => {
+    if(checkCommand(ipcom)){
+      8
+    }
+    else{
+      return `Enter some Valid Command`
+    }
+  }
+
   const handleInput = (e) => {
     console.log(command)
     setCommand(e.target.value);
@@ -69,6 +89,7 @@ function App() {
     setIpcom(command)
     console.log("works")
     console.log(ipcom)
+    movePiece();
   }
 
   return (
@@ -80,7 +101,7 @@ function App() {
             {
               board.map((row, rowIdx) => 
                 row.map((col, colIdx) => (
-                  <Block key={`${rowIdx}-${colIdx}`} text={col ? col.type[0] + col.color[0] + (col.id ? col.id : ``) : ``} bgc={(rowIdx + colIdx) % 2 ? `Gray` : `lightGray`}/>
+                  <Block key={`${rowIdx}-${colIdx}`} text={col ? col.name : ``} bgc={(rowIdx + colIdx) % 2 ? `Gray` : `lightGray`}/>
                 ))
               )
             }

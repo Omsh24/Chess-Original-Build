@@ -97,11 +97,10 @@ function App() {
       // valid piece location
       if(obj){
         console.log(`obj is not null`)
-        // obj.step();
         let to = {row: Number(ipcom[9]), col:Number(ipcom[10])}
         let from = {row: row, col: col}
         const newBoard = board.map((row) => row.slice());
-        if(obj.step(newBoard, from, to)){
+        if(obj.step(newBoard, from, to, obj.color)){
           setBoard(newBoard)
         }
 
@@ -125,6 +124,7 @@ function App() {
 
   useEffect(() => {
     setBoard(board);
+    console.log(board)
   }, [ipcom, command, board])
 
   return (
@@ -135,9 +135,14 @@ function App() {
           <div className='board w-[400px] h-[400px] border-white border-[2px] rounded-sm grid grid-cols-8 grid-rows-8'>
             {
               board.map((row, rowIdx) => 
-                row.map((col, colIdx) => (
-                  <Block key={`${rowIdx}-${colIdx}`} text={col ? col.name : ``} bgc={(rowIdx + colIdx) % 2 ? `Gray` : `lightGray`}/>
-                ))
+                row.map((col, colIdx) => {
+                  if(col){
+                    return <Block key={`${rowIdx}-${colIdx}`} hasPiece={true} text={col ? col.name : ``} bgc={(rowIdx + colIdx) % 2 ? `Gray` : `lightGray`}/>
+                  }
+                  else{
+                    return <Block key={`${rowIdx}-${colIdx}`} hasPiece={false} text={`${rowIdx}${colIdx}`} bgc={(rowIdx + colIdx) % 2 ? `Gray` : `lightGray`}/>
+                  }
+                })
               )
             }
           </div>

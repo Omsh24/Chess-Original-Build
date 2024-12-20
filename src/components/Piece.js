@@ -4,8 +4,15 @@ class Piece{
         this.color = color
     }
 
-    step(from, to, board){
-        true;
+    step(val){
+        if(val){
+            console.log(`Can Travel`)
+            return true;
+        }
+        else{
+            console.log(`Cannot Travel`)
+            return false
+        }
     }
 }
 
@@ -16,9 +23,17 @@ class Pawn extends Piece{
         let name = this.type[0] + this.color[0] + this.id
         this.name = name
     }
-
-    step(from, to, board){
-
+    step(board, from, to) {
+        console.log(`this works for pawn`)
+        if(from.row - 1 == to.row){
+            board[to.row][to.col] = this;
+            board[from.row][from.col] = null
+            console.log(`Piece moved`)
+            return true;
+        }
+    
+        console.error("Invalid move!");
+        return false;
     }
 }
 

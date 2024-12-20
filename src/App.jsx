@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Block from './components/block'
 import Input from './components/Input';
 import Button from './components/Button';
@@ -6,7 +6,7 @@ import { Pawn, Rook, Bishop, Knight, Queen, King } from './components/Piece.js';
 import './App.css'
 
 function App() {
-  // const initialBoard = [
+  // let initialBoard = [
   //   ["rb1", "nb1", "bb1", "qb", "kb", "bb2", "nb2", "rb2"], // Black's pieces
   //   ["pb1", "pb2", "pb3", "pb4", "pb5", "pb6", "pb7", "pb8"], // Black's pawns
   //   [null, null, null, null, null, null, null, null],
@@ -57,6 +57,8 @@ function App() {
     createBoard
   )
 
+  let changeBoard = createBoard();
+
   const [command, setCommand] = useState("");
   const [ipcom, setIpcom] = useState("");
 
@@ -71,9 +73,39 @@ function App() {
     }
   }
 
+  const findPiece = (piece) => {
+    // let r = -1, c = -1
+    for(let i=0;i<board.length;i++){
+      for(let j=0;j<board[0].length;j++){
+        // found the piece
+        if(board[i][j] && board[i][j].name == piece){
+          console.log(`Found ${piece} at ${i} ${j}`)
+          return [board[i][j], Number(i), Number(j)]
+        }
+      }
+    }
+    // no piece found
+    return [null, -1, -1]
+  }
+
   const movePiece = () => {
     if(checkCommand(ipcom)){
-      8
+      // get the name of the piece user has selected
+      let piece = ipcom.substring(0, 3)
+      // find the piece on the board
+      let [obj, row, col] = findPiece(piece)
+      // valid piece location
+      if(obj){
+        console.log(`obj is not null`)
+        // obj.step();
+        let to = {row: Number(ipcom[9]), col:Number(ipcom[10])}
+        let from = {row: row, col: col}
+        const newBoard = board.map((row) => row.slice());
+        if(obj.step(newBoard, from, to)){
+          setBoard(newBoard)
+        }
+
+      }
     }
     else{
       return `Enter some Valid Command`
@@ -87,10 +119,13 @@ function App() {
 
   const takeInput = () => {
     setIpcom(command)
-    console.log("works")
     console.log(ipcom)
     movePiece();
   }
+
+  useEffect(() => {
+    setBoard(board);
+  }, [ipcom, command, board])
 
   return (
     <>

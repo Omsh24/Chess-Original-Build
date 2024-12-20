@@ -1,8 +1,6 @@
-# React + Vite
+#This is a Simple React and Tailwind based projecd on Chess, this is a completely original project which has not been inspired by anyone or any other project.
+This project aims to develop and showcase my skills on React and Tailwind.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Current Build of the Project:
+![image](https://github.com/user-attachments/assets/6b36ec98-2a63-425f-b18f-3995139172b6)
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
